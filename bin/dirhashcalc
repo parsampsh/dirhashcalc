@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+
+import dirhashcalc
+import sys
+
+dirhashcalc.main(sys.argv[1:])
+
