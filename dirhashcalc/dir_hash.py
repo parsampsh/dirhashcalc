@@ -20,10 +20,11 @@ class DirHashCalculator:
     To make it shorter:
     dir_sha256 = DirHashCalculator('/path/to/dir').calc()
     """
-    def __init__(self, dir_name, cli_verbose=False):
+    def __init__(self, dir_name, cli_verbose=False, cli_super_verbose=False):
         self.main_dir = dir_name
         self.all_files = []
         self.cli_verbose = cli_verbose
+        self.cli_super_verbose = cli_super_verbose
 
     def calc_sha256(self, fname):
         """
@@ -40,9 +41,12 @@ class DirHashCalculator:
         with open(fname, "rb") as f:
             for chunk in iter(lambda: f.read(chunk_size), b""):
                 hash_sha256.update(chunk)
+        f_hash = hash_sha256.hexdigest()
         if self.cli_verbose:
             print(fname)
-        return hash_sha256.hexdigest()
+        elif self.cli_super_verbose:
+            print(fname + ': ' + f_hash)
+        return f_hash
 
     def calc(self):
         """
@@ -99,7 +103,8 @@ class DirHashCalculator:
 def main(argv):
     if len(argv) <= 0:
         print('Usage: dir_hash [path-to-directory]')
-        print('     Option -v|--verbose: If you use this option, program logs the files that it is calculating hash of them. So you can track the process.')
+        print('     Option -v|--verbose: If you use this option, program logs the files that it is calculating hash of them. So you can track the process')
+        print('     Option -vv|--super-verbose: This is like -v|--version, but this also shows hash of each file too')
         print('     Option --version: Shows version of the program')
         sys.exit()
 
@@ -112,7 +117,7 @@ def main(argv):
     for arg in argv:
         if arg[0] != '-':
             if os.path.isdir(arg):
-                dir_hash_calculator = DirHashCalculator(arg, cli_verbose=('-v' in argv or '--verbose' in argv))
+                dir_hash_calculator = DirHashCalculator(arg, cli_verbose=('-v' in argv or '--verbose' in argv), cli_super_verbose=('-vv' in argv or '--super-verbose' in argv))
                 if show_directory_name_before_hash:
                     print(arg + ': ', end='')
                 print(dir_hash_calculator.calc())
