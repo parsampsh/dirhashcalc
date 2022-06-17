@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import hashlib
 import sys
 import os
@@ -19,9 +20,10 @@ class DirHashCalculator:
     To make it shorter:
     dir_sha256 = DirHashCalculator('/path/to/dir').calc()
     """
-    def __init__(self, dir_name):
+    def __init__(self, dir_name, cli_verbose=False):
         self.main_dir = dir_name
         self.all_files = []
+        self.cli_verbose = cli_verbose
 
     def calc_sha256(self, fname):
         """
@@ -34,9 +36,12 @@ class DirHashCalculator:
         """
         fname = self.main_dir + '/' + fname
         hash_sha256 = hashlib.sha256()
+        chunk_size = 167772160*3
         with open(fname, "rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
+            for chunk in iter(lambda: f.read(chunk_size), b""):
                 hash_sha256.update(chunk)
+        if self.cli_verbose:
+            print(fname)
         return hash_sha256.hexdigest()
 
     def calc(self):
@@ -94,18 +99,20 @@ class DirHashCalculator:
 def main(argv):
     if len(argv) <= 0:
         print('Usage: dir_hash [path-to-directory]')
+        print('     Option -v|--verbose: If you use this option, program logs the files that it is calculating hash of them. So you can track the process.')
         sys.exit()
 
     show_directory_name_before_hash = len(argv) > 1
 
     for arg in argv:
-        if os.path.isdir(arg):
-            dir_hash_calculator = DirHashCalculator(arg)
-            if show_directory_name_before_hash:
-                print(arg + ': ', end='')
-            print(dir_hash_calculator.calc())
-        else:
-            print('Error: "'+arg+'" does not exist or is not a directory', file=sys.stderr)
+        if arg[0] != '-':
+            if os.path.isdir(arg):
+                dir_hash_calculator = DirHashCalculator(arg, cli_verbose=('-v' in argv or '--verbose' in argv))
+                if show_directory_name_before_hash:
+                    print(arg + ': ', end='')
+                print(dir_hash_calculator.calc())
+            else:
+                print('Error: "'+arg+'" does not exist or is not a directory', file=sys.stderr)
 
 
 if __name__ == '__main__':
