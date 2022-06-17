@@ -16,6 +16,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - name: Install requirements
+      run: |
+        pip install wheel
     - name: Publish
       run: |
         python setup.py sdist bdist_wheel
