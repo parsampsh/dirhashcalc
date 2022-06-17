@@ -11,14 +11,14 @@ $ pip install dirhashcalc
 To use it in commandline:
 
 ```shell
-$ dir_hash path/to/dir
+$ dirhashcalc path/to/dir
 8907645cfe42941cf7dbc656d59ccc4f02ec2a16493c097e04ce2547ad1e5484
 ```
 
 You can also pass mlutiple arguments:
 
 ```shell
-$ dir_hash first second
+$ dirhashcalc first second
 first: 8907645cfe42941cf7dbc656d59ccc4f02ec2a16493c097e04ce2547ad1e5484
 second: 9f29e53d60a5a8e92da03e41678374ac584c2c94a24898c0c719736412723c4d
 ```
