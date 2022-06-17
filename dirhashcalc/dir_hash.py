@@ -4,7 +4,7 @@ import sys
 import os
 
 
-VERSION = '0.0.1-dev3'
+VERSION = '0.0.1-dev4'
 
 
 class DirHashCalculator:
