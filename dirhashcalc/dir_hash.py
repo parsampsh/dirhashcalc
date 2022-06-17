@@ -100,6 +100,11 @@ def main(argv):
     if len(argv) <= 0:
         print('Usage: dir_hash [path-to-directory]')
         print('     Option -v|--verbose: If you use this option, program logs the files that it is calculating hash of them. So you can track the process.')
+        print('     Option --version: Shows version of the program')
+        sys.exit()
+
+    if '--version' in argv:
+        print('dirhashcalc ' + VERSION)
         sys.exit()
 
     show_directory_name_before_hash = len(argv) > 1
