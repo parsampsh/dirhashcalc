@@ -1,2 +1,2 @@
-from .dir_hash import DirHashCalculator, VERSION
+from .dir_hash import DirHashCalculator, VERSION, main
 
