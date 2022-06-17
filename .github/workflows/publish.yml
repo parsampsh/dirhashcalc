@@ -18,7 +18,7 @@ jobs:
         python-version: 3.9
     - name: Install requirements
       run: |
-        pip install wheel
+        pip install wheel twine
     - name: Publish
       run: |
         python setup.py sdist bdist_wheel
